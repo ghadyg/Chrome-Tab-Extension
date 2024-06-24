@@ -1,25 +1,61 @@
-
-
-// // Create an async function to handle asynchronous code
-// async function addTabUrlsToPopup() {
-//     try {
+document.addEventListener('keydown', function(event) {
+    if (event.altKey && event.key === 'v') {
+        const existingPopup = document.getElementById('site-change-popup');
         
-//         console.log(tabs);
-        
-//     } catch (error) {
-//         console.error('Error querying tabs:', error);
-//     }
+        if (existingPopup) {
+            document.body.removeChild(existingPopup);
+        } else {
+            chrome.runtime.sendMessage({ message: 'get_tabs' }, function(response) {
+                const tabs = response.tabs;
+                console.log("hello");
+                const popup = document.createElement('div');
+                popup.id = 'site-change-popup';
+                popup.style.position = 'fixed';
+                popup.style.top = '0px';
+                popup.style.right = '10px';
+                popup.style.backgroundColor = '#1C232C';
+                popup.style.color = 'white';
+                popup.style.border = '1px solid black';
+                popup.style.padding = '10px';
+                popup.style.zIndex = '10000';
+                popup.style.display = 'flex';
+                popup.style.flexDirection = 'column';
+                popup.style.gap = '10px'; // Optional: Adds space between the items
 
-//     // Append popup to the body
-//     document.body.appendChild(popup);
+                // Add a message to the popup
+                const message = document.createElement('p');
+                message.innerText = 'You have the following tabs opened:';
+                popup.appendChild(message);
 
-//     // Automatically remove the popup after a few seconds
-//     setTimeout(() => {
-//         if (document.body.contains(popup)) {
-//             document.body.removeChild(popup);
-//         }
-//     }, 50000); // Change this value to keep the popup longer or shorter
-// }
+                //tabs.sort((a, b) => a.url.localeCompare(b.url));
+                tabs.forEach(tab => {
+                    const wrapper = document.createElement("div");
+                    wrapper.style.display = 'flex';
+                    wrapper.style.alignItems = 'center';
+                    wrapper.style.padding = '0px';
+                    wrapper.style.margin = '0px';
+                    wrapper.style.width = "300px";
+                    wrapper.addEventListener('click', function() {
+                        wrapperClick(tab.url,tab.Id); // Pass your arguments here
+                    });
+                    const wrapperClick = (tabUrl,tabId)=>{
+                        chrome.runtime.sendMessage({ message: 'open_new_tab', id: tabId, url: tabUrl });   
+                    }
 
-// // Call the async function
-// addTabUrlsToPopup();
+                    const label = document.createElement("label");
+                    label.textContent = tab.url;
+                    // const link = document.createElement("a");
+                    // link.textContent = tab.url;
+                    // link.href = tab.url;
+                    // link.target = '_blank'; // Open link in a new tab
+                    // link.style.color = 'white'; // Optional: Make the link blue
+                    // link.style.textDecoration = 'underline'; // Optional: Underline the link
+                    wrapper.append(label);
+                    popup.appendChild(wrapper);
+                });
+
+                document.body.appendChild(popup);
+            });
+        }
+    }
+});
