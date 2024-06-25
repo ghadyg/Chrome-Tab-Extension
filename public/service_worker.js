@@ -16,4 +16,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         
         return true; // Keep the message channel open for sendResponse
     }
+    else if(request.message === 'close_new_tab')
+        {
+            const tabId = request.tabId;
+            console.log(tabId);
+            chrome.tabs.remove([tabId], function(){});
+        }
 });
