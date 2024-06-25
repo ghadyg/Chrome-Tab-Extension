@@ -22,19 +22,11 @@ document.addEventListener('keydown', function(event) {
                 popup.style.setProperty('flex-direction', 'column', 'important');
                 popup.style.setProperty('gap', '10px', 'important');
                 popup.style.setProperty('width', '300px', 'important');
-
-                // Add a message to the popup
-                const message = document.createElement('p');
-                message.style.color = "white";
-                message.innerText = 'You have the following tabs opened:';
-                popup.appendChild(message);
-
-                //tabs.sort((a, b) => a.url.localeCompare(b.url));
                 tabs.forEach(tab => {
                     const wrapper = document.createElement("div");
+                    wrapper.id = tab.id;
                     wrapper.style.setProperty('display', 'flex', 'important');
-                   // wrapper.style.setProperty('align-items', 'center', 'important');
-                   wrapper.style.setProperty('justify-content', 'space-between', 'important');
+                    wrapper.style.setProperty('justify-content', 'space-between', 'important');
                     wrapper.style.setProperty('background-color', '#1C232C', 'important');
                     wrapper.style.setProperty('padding', '0px', 'important');
                     wrapper.style.setProperty('margin', '0px', 'important');
@@ -44,37 +36,92 @@ document.addEventListener('keydown', function(event) {
                         chrome.runtime.sendMessage({ message: 'open_new_tab', id: tabId, url: tabUrl });   
                     }
                     console.log(tab);
-                    const label = document.createElement("label");
-                    label.addEventListener('click', function() {
-                        wrapperClick(tab.url,tab.Id); // Pass your arguments here
+                    const wrapperLbl = document.createElement("div");
+                    
+                    wrapperLbl.style.setProperty('display', 'flex', 'important');
+                    wrapperLbl.style.setProperty('background-color', '#1C232C', 'important');
+                    wrapperLbl.style.setProperty('padding', '0px', 'important');
+                    wrapperLbl.style.setProperty('margin', '0px', 'important');
+                    wrapperLbl.style.setProperty('width', '280px', 'important');
+                    wrapperLbl.addEventListener('click', function() {
+                        wrapperClick(tab.url,tab.id); // Pass your arguments here
                     });
+
+
+                    //adding the hover style for the wrapper
+                    const style = document.createElement('style');
+
+                    // Add CSS rules for hover
+                    style.textContent = `
+                        .hover-pointer:hover {
+                            cursor: pointer !important;
+                        }
+                        .preview {
+                          position: absolute;
+                          left: -310px;
+                          top: 0;
+                          background-color: #1C232C;
+                          border: 1px solid black;
+                          padding: 10px;
+                          width: 300px;
+                          height: 300px;
+                        }
+                    `;
+
+                    // Append the style element to the document head
+                    document.head.appendChild(style);
+                    wrapperLbl.classList.add("hover-pointer");
+
+                    const label = document.createElement("label");
                     label.textContent = tab.title? tab.title : tab.url;
                     label.style.setProperty('background-color', '#1C232C', 'important');
                     label.style.setProperty('color', 'white', 'important');
+                    label.style.setProperty('width', '250px', 'important');
+                    label.classList.add("hover-pointer");
 
-                    const btn = document.createElement("button");
-                    btn.textContent = "close";
-                    btn.style.setProperty('width', '30px', 'important');
+                    // Add mouseover event listener to label
+                    label.addEventListener('mouseover', function(e) {
+                        const preview = document.createElement('div');
+                        preview.className = 'preview';
+                        preview.innerHTML = `<iframe src="${tab.url}" frameborder="0" width="300" height="300"></iframe>`;
+                        popup.appendChild(preview);
+                      });
+
+                      // Add mouseout event listener to label
+                      label.addEventListener('mouseout', function(e) {
+                        const preview = document.querySelector('.preview');
+                        if (preview) {
+                          popup.removeChild(preview);
+                        }
+                      });
                     
+                    const icon = document.createElement("img");
+                    icon.src = tab.favIconUrl;
+                    icon.style.setProperty('width', '20px', 'important');
+                    icon.style.setProperty('height', '20px', 'important');
+                    icon.style.setProperty("margin-right","5px",'important');
+                    
+                    wrapperLbl.append(icon);
+                    wrapperLbl.append(label);
+
+
+                    const btn = document.createElement("img");
+                    btn.style.setProperty('height', '20px', 'important');
+                    btn.style.setProperty('width', '20px', 'important');
+                    btn.classList.add("hover-pointer");
+                    btn.src = `https://www.svgrepo.com/show/350281/close.svg`;
                     btn.addEventListener('click', function() {
-                        closeTabFunc(tab.Id); // Pass your arguments here
+                        popup.removeChild(document.getElementById(tab.id));
+                        closeTabFunc(tab.id); // Pass your arguments here
                     });
 
                     const closeTabFunc = (tabId)=>{
                         event.stopPropagation(); // Prevent the wrapper click event from firing
                         console.log(tabId);
-                        chrome.runtime.sendMessage({ message: 'close_new_tab', tabId: tab.Id});
+                        chrome.runtime.sendMessage({ message: 'close_new_tab', tabId: tabId});
                     }
-                    
-                    // const link = document.createElement("a");
-                    // link.textContent = tab.url;
-                    // link.href = tab.url;
-                    // link.target = '_blank'; // Open link in a new tab
-                    // link.style.color = 'white'; // Optional: Make the link blue
-                    // link.style.textDecoration = 'underline'; // Optional: Underline the link
-                    wrapper.append(label);
+                    wrapper.append(wrapperLbl);
                     wrapper.append(btn);
-
                     popup.appendChild(wrapper);
                 });
 
