@@ -43,9 +43,12 @@ document.addEventListener('keydown', function(event) {
                     wrapperLbl.style.setProperty('padding', '0px', 'important');
                     wrapperLbl.style.setProperty('margin', '0px', 'important');
                     wrapperLbl.style.setProperty('width', '280px', 'important');
+                    
                     wrapperLbl.addEventListener('click', function() {
                         wrapperClick(tab.url,tab.id); // Pass your arguments here
                     });
+
+                    
 
 
                     //adding the hover style for the wrapper
@@ -72,6 +75,9 @@ document.addEventListener('keydown', function(event) {
                     document.head.appendChild(style);
                     wrapperLbl.classList.add("hover-pointer");
 
+
+
+
                     const label = document.createElement("label");
                     label.textContent = tab.title? tab.title : tab.url;
                     label.style.setProperty('background-color', '#1C232C', 'important');
@@ -80,7 +86,7 @@ document.addEventListener('keydown', function(event) {
                     label.classList.add("hover-pointer");
                     let newWindow = 0;
                     // Add mouseover event listener to label
-                    label.addEventListener('mouseover', function(e) {
+                    label.addEventListener('mouseenter', function(e) {
                         
                         chrome.runtime.sendMessage({ message: 'screenshotTab', windowId:tab.url }, function(response) {
                         newWindow = response.window;
@@ -95,7 +101,7 @@ document.addEventListener('keydown', function(event) {
                       label.addEventListener('mouseout', function(e) {
                         if(newWindow != 0 )
                             chrome.runtime.sendMessage({ message: 'close_window', windowId: newWindow});
-                      });
+                    });
                     
                     const icon = document.createElement("img");
                     icon.src = tab.favIconUrl;
@@ -111,7 +117,7 @@ document.addEventListener('keydown', function(event) {
                     btn.style.setProperty('height', '20px', 'important');
                     btn.style.setProperty('width', '20px', 'important');
                     btn.classList.add("hover-pointer");
-                    btn.src = `https://www.svgrepo.com/show/350281/close.svg`;
+                    btn.src = `https://img.icons8.com/external-inkubators-basic-outline-inkubators/32/FFFFFF/external-close-button-it-and-computer-inkubators-basic-outline-inkubators.png`;
                     btn.addEventListener('click', function() {
                         popup.removeChild(document.getElementById(tab.id));
                         closeTabFunc(tab.id); // Pass your arguments here
