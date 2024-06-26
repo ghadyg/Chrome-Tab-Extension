@@ -78,21 +78,23 @@ document.addEventListener('keydown', function(event) {
                     label.style.setProperty('color', 'white', 'important');
                     label.style.setProperty('width', '250px', 'important');
                     label.classList.add("hover-pointer");
-
+                    let newWindow = 0;
                     // Add mouseover event listener to label
                     label.addEventListener('mouseover', function(e) {
-                        const preview = document.createElement('div');
-                        preview.className = 'preview';
-                        preview.innerHTML = `<iframe src="${tab.url}" frameborder="0" width="300" height="300"></iframe>`;
-                        popup.appendChild(preview);
-                      });
+                        
+                        chrome.runtime.sendMessage({ message: 'screenshotTab', windowId:tab.url }, function(response) {
+                        newWindow = response.window;
+                            // const preview = document.createElement('div');
+                        // preview.className = 'preview';
+                        // preview.innerHTML = `<img src="${response.screenshotUrl}" width="300" height="300"></img>`;
+                        // popup.appendChild(preview);
+                      })
+                    });
 
                       // Add mouseout event listener to label
                       label.addEventListener('mouseout', function(e) {
-                        const preview = document.querySelector('.preview');
-                        if (preview) {
-                          popup.removeChild(preview);
-                        }
+                        if(newWindow != 0 )
+                            chrome.runtime.sendMessage({ message: 'close_window', windowId: newWindow});
                       });
                     
                     const icon = document.createElement("img");

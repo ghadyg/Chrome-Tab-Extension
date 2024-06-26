@@ -9,16 +9,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     } else if (request.message === 'open_new_tab') {
         const { id, url } = request;
         
-        // chrome.tabs.create({
-        //     active: true,
-        //     url: url,
-        //     index: 0,
-        //     windowId: chrome.windows.WINDOW_ID_CURRENT, 
-        // }, () => {
-        //     // chrome.tabs.remove(id, function() {
-        //     //     console.log('Tab removed successfully');
-        //     // });
-        // });
         chrome.windows.create({
             height:600,
             width:800,
@@ -37,4 +27,32 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 console.log('Tab removed successfully');
             });
         }
+        else if(request.message === "screenshotTab")
+            {
+                
+                const url = request.windowId;
+        
+                chrome.windows.create({
+                    height:600,
+                    width:800,
+                    url: url,
+                },function(windows){
+                    sendResponse({window: windows.id});
+                })
+                
+                return true;
+               
+            }
+            else if(request.message === "close_window")
+                {
+                    
+                    const windowId = request.windowId;
+                    console.log(windowId);
+                    chrome.windows.remove(windowId, function() {
+                        console.log('window removed successfully');
+                    });
+                    
+                    return true;
+                   
+                }
 });
