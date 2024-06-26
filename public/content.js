@@ -16,22 +16,33 @@ document.addEventListener('keydown', function(event) {
                 popup.style.setProperty('background-color', '#1C232C', 'important');
                 popup.style.setProperty('color', 'white', 'important');
                 popup.style.setProperty('border', '1px solid black', 'important');
-                popup.style.setProperty('padding', '10px', 'important');
+                popup.style.setProperty('padding', '1px', 'important');
                 popup.style.setProperty('z-index', '10000', 'important');
                 popup.style.setProperty('display', 'flex', 'important');
                 popup.style.setProperty('flex-direction', 'column', 'important');
                 popup.style.setProperty('gap', '10px', 'important');
-                popup.style.setProperty('width', '300px', 'important');
-                tabs.forEach(tab => {
+                popup.style.setProperty('width', '330px', 'important');
+                
+
+                tabs.forEach((tab,index) => {
                     const wrapper = document.createElement("div");
                     wrapper.id = tab.id;
                     wrapper.style.setProperty('display', 'flex', 'important');
+                    wrapper.style.setProperty('gap', '20px', 'important');
                     wrapper.style.setProperty('justify-content', 'space-between', 'important');
                     wrapper.style.setProperty('background-color', '#1C232C', 'important');
-                    wrapper.style.setProperty('padding', '0px', 'important');
+                    wrapper.style.setProperty('padding', '10px', 'important');
                     wrapper.style.setProperty('margin', '0px', 'important');
-                    wrapper.style.setProperty('width', '290px', 'important');
+                    wrapper.style.setProperty('width', '310px', 'important');
                     
+                    console.log(tabs.length-1);
+                    console.log(index);
+                    if(index !== tabs.length-1)
+                        {
+                            wrapper.style.setProperty('border-radius', '0', 'important');
+                            wrapper.style.setProperty('border-bottom', '2px solid black', 'important');
+                        }
+
                     const wrapperClick = (tabUrl,tabId)=>{
                         chrome.runtime.sendMessage({ message: 'open_new_tab', id: tabId, url: tabUrl });   
                     }
@@ -42,7 +53,7 @@ document.addEventListener('keydown', function(event) {
                     wrapperLbl.style.setProperty('background-color', '#1C232C', 'important');
                     wrapperLbl.style.setProperty('padding', '0px', 'important');
                     wrapperLbl.style.setProperty('margin', '0px', 'important');
-                    wrapperLbl.style.setProperty('width', '280px', 'important');
+                    wrapperLbl.style.setProperty('width', '260px', 'important');
                     
                     wrapperLbl.addEventListener('click', function() {
                         wrapperClick(tab.url,tab.id); // Pass your arguments here
@@ -82,7 +93,7 @@ document.addEventListener('keydown', function(event) {
                     label.textContent = tab.title? tab.title : tab.url;
                     label.style.setProperty('background-color', '#1C232C', 'important');
                     label.style.setProperty('color', 'white', 'important');
-                    label.style.setProperty('width', '250px', 'important');
+                    label.style.setProperty('width', '230px', 'important');
                     label.classList.add("hover-pointer");
                     let newWindow = 0;
                     // Add mouseover event listener to label

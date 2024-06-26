@@ -48,8 +48,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     
                     const windowId = request.windowId;
                     console.log(windowId);
-                    chrome.windows.remove(windowId, function() {
-                        console.log('window removed successfully');
+                    chrome.windows.get(windowId, function(window) {
+                      if (window) {
+                        chrome.windows.remove(windowId, function() {
+                          console.log('window removed successfully');
+                        });
+                      } else {
+                        console.log('window not found');
+                      }
                     });
                     
                     return true;
