@@ -13,7 +13,7 @@ document.addEventListener('keydown', function(event) {
                 popup.style.setProperty('position', 'fixed', 'important');
                 popup.style.setProperty('top', '0vh', 'important');
                 popup.style.setProperty('right', '1vw', 'important');
-                popup.style.setProperty('background-color', '#1C232C', 'important');
+                popup.style.setProperty('background-color', 'rgb(28, 35, 44,0.9)', 'important');
                 popup.style.setProperty('color', 'white', 'important');
                 popup.style.setProperty('border', '1px solid black', 'important');
                 popup.style.setProperty('padding', '1px', 'important');
@@ -21,7 +21,19 @@ document.addEventListener('keydown', function(event) {
                 popup.style.setProperty('display', 'flex', 'important');
                 popup.style.setProperty('flex-direction', 'column', 'important');
                 popup.style.setProperty('gap', '10px', 'important');
-                popup.style.setProperty('width', '330px', 'important');
+                popup.style.setProperty('width', '307px', 'important');
+                popup.style.setProperty('max-height', '100vh', 'important');
+                popup.style.setProperty('overflow-y', 'auto', 'important');
+                popup.style.setProperty('overflow-x', 'none', 'important'); 
+                popup.style.setProperty('margin', '0', 'important'); 
+                // Function to adjust the width based on scrollbar presence
+                function adjustPopupWidth() {
+                    if (popup.scrollHeight > popup.clientHeight) {
+                        popup.style.setProperty('width', '307px', 'important');
+                    } else {
+                        popup.style.setProperty('width', '290px', 'important');
+                    }
+                }
                 
 
                 tabs.forEach((tab,index) => {
@@ -30,10 +42,10 @@ document.addEventListener('keydown', function(event) {
                     wrapper.style.setProperty('display', 'flex', 'important');
                     wrapper.style.setProperty('gap', '20px', 'important');
                     wrapper.style.setProperty('justify-content', 'space-between', 'important');
-                    wrapper.style.setProperty('background-color', '#1C232C', 'important');
+                    wrapper.style.setProperty('background-color', 'rgb(28, 35, 44)', 'important');
                     wrapper.style.setProperty('padding', '10px', 'important');
                     wrapper.style.setProperty('margin', '0px', 'important');
-                    wrapper.style.setProperty('width', '310px', 'important');
+                    wrapper.style.setProperty('width', '270px', 'important');
                     
                    
                     if(index !== tabs.length-1)
@@ -49,10 +61,10 @@ document.addEventListener('keydown', function(event) {
                     const wrapperLbl = document.createElement("div");
                     
                     wrapperLbl.style.setProperty('display', 'flex', 'important');
-                    wrapperLbl.style.setProperty('background-color', '#1C232C', 'important');
+                    wrapperLbl.style.setProperty('background-color', 'rgb(28, 35, 44)', 'important');
                     wrapperLbl.style.setProperty('padding', '0px', 'important');
                     wrapperLbl.style.setProperty('margin', '0px', 'important');
-                    wrapperLbl.style.setProperty('width', '260px', 'important');
+                    wrapperLbl.style.setProperty('width', '210px', 'important');
                     
                     wrapperLbl.addEventListener('click', function() {
                         wrapperClick(tab.url,tab.id); // Pass your arguments here
@@ -73,7 +85,7 @@ document.addEventListener('keydown', function(event) {
                           position: absolute;
                           left: -310px;
                           top: 0;
-                          background-color: #1C232C;
+                          background-color: rgb(28, 35, 44);
                           border: 1px solid black;
                           padding: 10px;
                           width: 300px;
@@ -90,21 +102,17 @@ document.addEventListener('keydown', function(event) {
 
                     const label = document.createElement("label");
                     label.textContent = tab.title? tab.title : tab.url;
-                    label.style.setProperty('background-color', '#1C232C', 'important');
+                    label.style.setProperty('background-color', 'rgb(28, 35, 44)', 'important');
                     label.style.setProperty('color', 'white', 'important');
-                    label.style.setProperty('width', '230px', 'important');
+                    label.style.setProperty('width', '180px', 'important');
                     label.classList.add("hover-pointer");
                     let newWindow = 0;
                     
                     // Add mouseover event listener to label
                     label.addEventListener('mouseenter', function(e) {
-                        
                         chrome.runtime.sendMessage({ message: 'screenshotTab', windowId:tab.url,top:window.innerHeight,left:window.innerWidth }, function(response) {
                         newWindow = response.window;
-                            // const preview = document.createElement('div');
-                        // preview.className = 'preview';
-                        // preview.innerHTML = `<img src="${response.screenshotUrl}" width="300" height="300"></img>`;
-                        // popup.appendChild(preview);
+                        ;
                       })
                     });
 
@@ -143,8 +151,9 @@ document.addEventListener('keydown', function(event) {
                     wrapper.append(btn);
                     popup.appendChild(wrapper);
                 });
-
+                
                 document.body.appendChild(popup);
+                adjustPopupWidth();
             });
         }
     }

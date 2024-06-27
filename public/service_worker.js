@@ -22,7 +22,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return true; // Keep the message channel open for sendResponse
     } else if (request.message === 'open_new_tab') {
         const url = request.windowId;
-        const leftPx = request.left - Math.round(request.left * (1 / 100)) - 310;
+        const leftPx = request.left - Math.round(request.left * (1 / 100)) - 307;
         let left = 0;
         const top = Math.round(request.top * (10 / 100));
         let width = 600;
@@ -54,7 +54,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     else if(request.message === "screenshotTab") {
                 
         const url = request.windowId;
-        const leftPx = request.left - Math.round(request.left * (1 / 100)) - 310;
+        const leftPx = request.left - Math.round(request.left * (1 / 100)) - 350;
         let left = 0;
         const top = Math.round(request.top * (10 / 100));
         let width = 600;
