@@ -50,6 +50,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.tabs.remove(tabId, function() {
             console.log('Tab removed successfully');
         });
+
+        return true;
     }
     else if(request.message === "screenshotTab") {
                 
@@ -91,6 +93,47 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               }
             });
             
+            return true;
+                   
+        }
+        else if(request.message === "create-new-window"){
+                    
+            //chrome.tabs.create({
+             //   active: true
+            //})
+            chrome.history.search({
+                text: "",
+                maxResults: 5,
+                endTime: 1719510414238.007
+            },function(tabs){
+                console.log(tabs);
+            })
+            return true;
+                   
+        }
+        else if(request.message === "laod-history"){
+                    
+            const lastAccessed = request.lastAccessed;
+            const tabCount = request.tabCount;
+            if(lastAccessed){
+                chrome.history.search({
+                    text: "",
+                    maxResults: 5,
+                    endTime: lastAccessed 
+                },function(tabs){
+                    console.log(tabs);
+                    sendResponse({ tabs: tabs });
+                })
+            }
+            else{
+                chrome.history.search({
+                    text: "",
+                    maxResults: 5+tabCount
+                },function(tabs){
+                    console.log(tabs);
+                    sendResponse({ tabs: tabs });
+                })
+            }
             return true;
                    
         }

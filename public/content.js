@@ -30,12 +30,65 @@ document.addEventListener('keydown', function(event) {
                 function adjustPopupWidth() {
                     if (popup.scrollHeight > popup.clientHeight) {
                         popup.style.setProperty('width', '307px', 'important');
+                       
                     } else {
                         popup.style.setProperty('width', '290px', 'important');
+                        
                     }
                 }
+
+
+                const headerDiv = document.createElement('div');
+                headerDiv.style.setProperty('position', 'sticky', 'important');
+                headerDiv.style.setProperty('top', '0', 'important');
+                headerDiv.style.setProperty('background-color', 'rgba(28, 35, 44, 0.9)', 'important');
+                headerDiv.style.setProperty('padding', '10px', 'important');
+                headerDiv.style.setProperty('margin', '0', 'important'); 
+                headerDiv.style.setProperty('z-index', '10001', 'important');
+                headerDiv.style.setProperty('border-bottom', '1px solid black', 'important');
+                headerDiv.style.setProperty('border-radius', '0', 'important');
+                headerDiv.style.setProperty('width', '270px', 'important');
+                headerDiv.style.setProperty('display', 'flex', 'important');
+                headerDiv.style.setProperty('justify-content', 'space-between', 'important');
+                // Create the h1 element
+                const header = document.createElement('h1');
+                header.textContent = 'Tabs:';
+                header.style.setProperty('margin', '0', 'important');
+
+                const newTabbtn = document.createElement("img");
+                newTabbtn.style.setProperty('height', '20px', 'important');
+                newTabbtn.style.setProperty('width', '20px', 'important');
+                newTabbtn.style.setProperty('align-self', 'center', 'important');
+                newTabbtn.classList.add("hover-pointer");
+                newTabbtn.src = `https://img.icons8.com/?size=100&id=37784&format=png&color=FFFFFF`;
                 
 
+
+                headerDiv.appendChild(header);
+                headerDiv.appendChild(newTabbtn);
+                popup.appendChild(headerDiv);
+                
+                tabs.sort((a, b) => b.lastAccessed - a.lastAccessed);
+                let firstTime = false;
+                newTabbtn.addEventListener('click', function() {
+                    // chrome.runtime.sendMessage({ message: 'create-new-window'}); 
+                    
+                    console.log(lastAccessed);
+                    
+                        if(firstTime){
+                            chrome.runtime.sendMessage({ message: 'laod-history',tabCount:tabs.length},function(responseTab){
+                                let filteredResponseTab = responseTab.filter(tab => !tabs.some(existingTab => existingTab.url === tab.url));
+                                tabs = [...tabs,...responseTab]
+                            }); 
+                        }
+                        else{
+                            const lastAccessed = tabs[tabs.length-1].lastAccessed;
+                            chrome.runtime.sendMessage({ message: 'laod-history',lastAccessed:lastAccessed},function(responseTab){
+                                tabs = [...tabs,...responseTab]
+                            }); 
+                        }
+                 });
+                console.log(tabs);
                 tabs.forEach((tab,index) => {
                     const wrapper = document.createElement("div");
                     wrapper.id = tab.id;
@@ -48,11 +101,10 @@ document.addEventListener('keydown', function(event) {
                     wrapper.style.setProperty('width', '270px', 'important');
                     
                    
-                    if(index !== tabs.length-1)
-                        {
-                            wrapper.style.setProperty('border-radius', '0', 'important');
-                            wrapper.style.setProperty('border-bottom', '2px solid black', 'important');
-                        }
+                   // if(index !== tabs.length-1){
+                        wrapper.style.setProperty('border-radius', '0', 'important');
+                        wrapper.style.setProperty('border-bottom', '2px solid black', 'important');
+                    //}
 
                     const wrapperClick = (tabUrl,tabId)=>{
                         chrome.runtime.sendMessage({ message: 'open_new_tab',  windowId:tab.url,top:window.innerHeight,left:window.innerWidth });   
@@ -64,14 +116,10 @@ document.addEventListener('keydown', function(event) {
                     wrapperLbl.style.setProperty('background-color', 'rgb(28, 35, 44)', 'important');
                     wrapperLbl.style.setProperty('padding', '0px', 'important');
                     wrapperLbl.style.setProperty('margin', '0px', 'important');
-                    wrapperLbl.style.setProperty('width', '210px', 'important');
-                    
+                    wrapperLbl.style.setProperty('width', '210px', 'important');                    
                     wrapperLbl.addEventListener('click', function() {
                         wrapperClick(tab.url,tab.id); // Pass your arguments here
                     });
-
-                    
-
 
                     //adding the hover style for the wrapper
                     const style = document.createElement('style');
@@ -101,11 +149,15 @@ document.addEventListener('keydown', function(event) {
 
 
                     const label = document.createElement("label");
-                    label.textContent = tab.title? tab.title : tab.url;
+                    label.textContent = tab.title ? tab.title : tab.url;
                     label.style.setProperty('background-color', 'rgb(28, 35, 44)', 'important');
                     label.style.setProperty('color', 'white', 'important');
                     label.style.setProperty('width', '180px', 'important');
+                    label.style.setProperty('overflow', 'hidden', 'important');
+                    label.style.setProperty('text-overflow', 'ellipsis', 'important');
+                    label.style.setProperty('white-space', 'nowrap', 'important');
                     label.classList.add("hover-pointer");
+
                     let newWindow = 0;
                     
                     // Add mouseover event listener to label
