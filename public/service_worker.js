@@ -14,127 +14,153 @@
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === 'get_tabs') {
-      
+      try {
         chrome.tabs.query({}, (tabs) => {
             
             sendResponse({ tabs: tabs });
         });
+      } catch (error) {
+        console.log(error);
+      }
         return true; // Keep the message channel open for sendResponse
     } else if (request.message === 'open_new_tab') {
-        const url = request.windowId;
-        const leftPx = request.left - Math.round(request.left * (1 / 100)) - 307;
-        let left = 0;
-        const top = Math.round(request.top * (10 / 100));
-        let width = 600;
-        if(leftPx-width<0){
-            width = width -left -30;
-        }  
-        else{
-            left = leftPx - width-50;
+
+        try {
+            const url = request.windowId;
+            const leftPx = request.left - Math.round(request.left * (1 / 100)) - 307;
+            let left = 0;
+            const top = Math.round(request.top * (10 / 100));
+            let width = 600;
+            if(leftPx-width<0){
+                width = width -left -30;
+            }  
+            else{
+                left = leftPx - width-50;
+            }
+            chrome.windows.create({
+                height:600,
+                width:width,
+                top:top,
+                left:left,
+                url: url,
+                focused:true
+            },function(windows){
+               
+            })
+
+        } catch (error) {
+            console.log(error);
         }
-        chrome.windows.create({
-            height:600,
-            width:width,
-            top:top,
-            left:left,
-            url: url,
-        },function(windows){
-           
-        })
+       
         
         return true;
     }
     else if(request.message === 'close_new_tab'){
-        const tabId = request.tabId;
-        console.log(tabId);
-        chrome.tabs.remove(tabId, function() {
-            console.log('Tab removed successfully');
+        try {
+            const tabId = request.tabId;
+            
+            chrome.tabs.remove(tabId, function() {
+            
         });
+        } catch (error) {
+            console.log(error);
+        }
+        
 
         return true;
     }
     else if(request.message === "screenshotTab") {
-                
-        const url = request.windowId;
-        const leftPx = request.left - Math.round(request.left * (1 / 100)) - 350;
-        let left = 0;
-        const top = Math.round(request.top * (10 / 100));
-        let width = 600;
-        if(leftPx-width<0){
-            width = width -left -30;
-        }  
-        else{
-            left = leftPx - width-50;
+        
+        try {
+            const url = request.windowId;
+            const leftPx = request.left - Math.round(request.left * (1 / 100)) - 350;
+            let left = 0;
+            const top = Math.round(request.top * (10 / 100));
+            let width = 600;
+            if(leftPx-width<0){
+                width = width -left -30;
+            }  
+            else{
+                left = leftPx - width-50;
+            }
+            chrome.windows.create({
+                height:600,
+                width:width,
+                top:top,
+                left:left,
+                url: url,
+            },function(windows){
+                sendResponse({window: windows.id});
+            })
+        
+        } catch (error) {
+            console.log(error);
         }
-        chrome.windows.create({
-            height:600,
-            width:width,
-            top:top,
-            left:left,
-            url: url,
-        },function(windows){
-            sendResponse({window: windows.id});
-        })
         
         return true;
                
         }
         else if(request.message === "close_window"){
-                    
-            const windowId = request.windowId;
-            console.log(windowId);
-            chrome.windows.get(windowId, function(window) {
-              if (window) {
-                chrome.windows.remove(windowId, function() {
-                  console.log('window removed successfully');
+            try {
+                const windowId = request.windowId;
+                
+                chrome.windows.get(windowId, function(window) {
+                  if (window) {
+                    chrome.windows.remove(windowId, function() {
+                      console.log('window removed successfully');
+                    });
+                  } else {
+                    console.log('window not found');
+                  }
                 });
-              } else {
-                console.log('window not found');
-              }
-            });
+            } catch (error) {
+                console.log(error);
+            }   
+            
             
             return true;
                    
         }
         else if(request.message === "create-new-window"){
-                    
-            //chrome.tabs.create({
-             //   active: true
-            //})
-            chrome.history.search({
-                text: "",
-                maxResults: 5,
-                endTime: 1719510414238.007
-            },function(tabs){
-                console.log(tabs);
-            })
+            try {
+                chrome.tabs.create({
+                    active: true
+                })
+            } catch (error) {
+                console.log(error);
+            }
+            
             return true;
                    
         }
         else if(request.message === "laod-history"){
-                    
-            const lastAccessed = request.lastAccessed;
-            const tabCount = request.tabCount;
-            console.log(request);
-            if(lastAccessed){
-                chrome.history.search({
-                    text: "",
-                    maxResults: 5,
-                    endTime: lastAccessed 
-                },function(tabs){
-                    console.log(tabs);
-                    sendResponse({ tabs: tabs });
-                })
-            }
-            else{
-                chrome.history.search({
-                    text: "",
-                    maxResults: 5+tabCount
-                },function(tabs){
-                    console.log(tabs);
-                    sendResponse({ tabs: tabs });
-                })
-            }
+            try {
+                const lastAccessed = request.lastAccessed;
+                const tabCount = request.tabCount;
+                console.log(request);
+                if(lastAccessed){
+                    chrome.history.search({
+                        text: "",
+                        maxResults: 5,
+                        endTime: lastAccessed 
+                    },function(tabs){
+                        console.log(tabs);
+                        sendResponse({ tabs: tabs });
+                    })
+                }
+                else{
+                    chrome.history.search({
+                        text: "",
+                        maxResults: 5+tabCount
+                    },function(tabs){
+                        console.log(tabs);
+                        sendResponse({ tabs: tabs });
+                    })
+                }
+            } catch (error) {
+                console.log(error);
+            }    
+            
             return true;
                    
         }
