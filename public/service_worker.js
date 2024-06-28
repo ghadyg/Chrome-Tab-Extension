@@ -115,6 +115,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     
             const lastAccessed = request.lastAccessed;
             const tabCount = request.tabCount;
+            console.log(request);
             if(lastAccessed){
                 chrome.history.search({
                     text: "",
