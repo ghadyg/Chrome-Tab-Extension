@@ -7,7 +7,7 @@
     "description": "A basic example extension to learn from it",
     "version": "1.0.0",
     "action":{
-        "default_popup": "index.html"
+        "default_popup": "popup.html"
     },
     "options_page": "index.html",
     "background":{

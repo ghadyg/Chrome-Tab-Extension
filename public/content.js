@@ -12,17 +12,45 @@ document.addEventListener('keydown', function(event) {
                     link.rel = 'stylesheet';
                     link.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap';
                     document.head.appendChild(link);
+                    //adding the hover style for the wrapper
+                    const style = document.createElement('style');
+    
+                    // Add CSS rules for hover
+                    style.textContent = `
+                    .header-hover:hover{
+                         cursor: grab !important;
+                    }
+                    .hover-pointer:hover {
+                        cursor: pointer !important;
+                    }
+                    .preview {
+                      position: absolute;
+                      left: -310px;
+                      top: 0;
+                      background-color: rgb(28, 35, 44);
+                      border: 1px solid black;
+                      padding: 10px;
+                      width: 300px;
+                      height: 300px;
+                    }
+                `;
+
+                    // Append the style element to the document head
+                    document.head.appendChild(style);
+
+
+
                     const popup = document.createElement('div');
                     popup.id = 'site-change-popup';
-                    
+
                     // Reset common properties
                     popup.style.setProperty('all', 'unset', 'important');
-    
+
                     // Apply the desired styles
                     popup.style.setProperty('position', 'fixed', 'important');
                     popup.style.setProperty('top', '0vh', 'important');
                     popup.style.setProperty('right', '1vw', 'important');
-                    popup.style.setProperty('background-color', 'rgba(28, 35, 44, 0.9)', 'important');
+                    popup.style.setProperty('background-color', 'rgba(28, 35, 44, 1)', 'important');
                     popup.style.setProperty('color', 'white', 'important');
                     popup.style.setProperty('border', '1px solid black', 'important');
                     popup.style.setProperty('padding', '1px', 'important');
@@ -37,25 +65,21 @@ document.addEventListener('keydown', function(event) {
                     popup.style.setProperty('margin', '0', 'important'); 
                     popup.style.setProperty('box-sizing', 'border-box', 'important'); // Ensure proper box sizing
                     popup.style.setProperty('font-family', "'Roboto', sans-serif", 'important');
-                   
-    
+
                     // Function to adjust the width based on scrollbar presence
                     function adjustPopupWidth() {
                         if (popup.scrollHeight > popup.clientHeight) {
                             popup.style.setProperty('width', '287px', 'important');
-                           
                         } else {
                             popup.style.setProperty('width', '270px', 'important');
-                            
                         }
                     }
-    
-    
+
                     const headerDiv = document.createElement('div');
                     headerDiv.removeAttribute('style');
                     headerDiv.style.setProperty('position', 'sticky', 'important');
                     headerDiv.style.setProperty('top', '0', 'important');
-                    headerDiv.style.setProperty('background-color', 'rgba(28, 35, 44, 0.9)', 'important');
+                    headerDiv.style.setProperty('background-color', 'rgba(28, 35, 44, 1)', 'important');
                     headerDiv.style.setProperty('padding', '10px', 'important');
                     headerDiv.style.setProperty('margin', '0', 'important'); 
                     headerDiv.style.setProperty('z-index', '10001', 'important');
@@ -65,11 +89,47 @@ document.addEventListener('keydown', function(event) {
                     headerDiv.style.setProperty('display', 'flex', 'important');
                     headerDiv.style.setProperty('justify-content', 'space-between', 'important');
                     headerDiv.style.setProperty('box-sizing', 'border-box', 'important');
+                    headerDiv.classList.add("header-hover");
+
+                    // Variables to store the initial position and state
+                    let isDragging = false;
+                    let startX, startY, initialX, initialY;
+
+                    headerDiv.addEventListener('mousedown', function (e) {
+                        isDragging = true;
+                        startX = e.clientX-popup.offsetLeft;
+                        startY = e.clientY-popup.offsetTop;
+                        document.addEventListener('mousemove', handleMouseMove);
+                        document.addEventListener('mouseup', handleMouseUp);
+                    });
+
+                    function handleMouseMove(e) {
+                        if (!isDragging) return;
+                        
+                        popup.style.setProperty('position', 'absolute', 'important');
+                        const dx = e.clientX;
+                        const dy = e.clientY;
+                        popup.style.setProperty('left', `${dx-startX}px`, 'important');
+                        popup.style.setProperty('top', `${dy-startY}px`, 'important');
+                        
+                    }
+
+                    function handleMouseUp() {
+                        isDragging = false;
+                        popup.style.setProperty('position', 'fixed', 'important');
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                    }
+
+
+
+
+
                     // Create the h1 element
                     const header = document.createElement('h1');
-                    header.textContent = 'Tabs:';
+                    header.textContent = 'Tabs';
                     header.style.setProperty('margin', '0', 'important');
-                    header.style.setProperty('font-size', '32px', 'important');
+                    header.style.setProperty('font-size', '25px', 'important');
     
                     const newTabbtn = document.createElement("img");
                     newTabbtn.style.setProperty('height', '20px', 'important');
@@ -124,7 +184,7 @@ document.addEventListener('keydown', function(event) {
     
                     document.body.appendChild(popup);
                     adjustPopupWidth();
-    
+                    
                     function addTabsToPopup(tabs) {
                         tabs.forEach((tab, index) => {
                             const wrapper = document.createElement("div");
@@ -140,7 +200,7 @@ document.addEventListener('keydown', function(event) {
     
                             // if(index !== tabs.length-1){
                             wrapper.style.setProperty('border-radius', '0', 'important');
-                            wrapper.style.setProperty('border-bottom', '2px solid black', 'important');
+                           // wrapper.style.setProperty('border-bottom', '2px solid black', 'important');
                             //}
                             const wrapperClick = (tabUrl, tabId) => {
                                 chrome.runtime.sendMessage({ message: 'open_new_tab', windowId: tab.url, top: window.innerHeight, left: window.innerWidth });
@@ -158,28 +218,7 @@ document.addEventListener('keydown', function(event) {
                                 wrapperClick(tab.url, tab.id); // Pass your arguments here
                             });
     
-                            //adding the hover style for the wrapper
-                            const style = document.createElement('style');
-    
-                            // Add CSS rules for hover
-                            style.textContent = `
-                            .hover-pointer:hover {
-                                cursor: pointer !important;
-                            }
-                            .preview {
-                              position: absolute;
-                              left: -310px;
-                              top: 0;
-                              background-color: rgb(28, 35, 44);
-                              border: 1px solid black;
-                              padding: 10px;
-                              width: 300px;
-                              height: 300px;
-                            }
-                        `;
-    
-                            // Append the style element to the document head
-                            document.head.appendChild(style);
+                            
                             wrapperLbl.classList.add("hover-pointer");
     
     
@@ -194,7 +233,7 @@ document.addEventListener('keydown', function(event) {
                             label.style.setProperty('text-overflow', 'ellipsis', 'important');
                             label.style.setProperty('white-space', 'nowrap', 'important');
                             label.classList.add("hover-pointer");
-                            label.style.setProperty('font-size', "16px", 'important');
+                            label.style.setProperty('font-size', "12px", 'important');
     
                             let newWindow = 0;
     

@@ -1,47 +1,29 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import SimpleSidebar from './component/Sidebar'
+
 
 function App() {
-  const [color, setColor]= useState("");
-  const clickMe = async() =>{
-    let arr = await chrome.tabs.query({active: true});
-    arr.forEach( tab =>{
-    chrome.scripting.executeScript({
-      target:{tabId: tab.id},
-      args:[color],
-      func: (color)=>{
-        document.body.style.backgroundColor = color;
-      }
-
-    })
-
-    })
-  }
+  
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <input type='color' onChange={(e)=>(setColor(e.currentTarget.value))} value={color}/>
-        <button onClick={clickMe}>
-          your color is {color}
-        </button>
-        <p>
-           {color}
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <SimpleSidebar>
+      <section class="hero">
+        <div className='headerHero'>
+          <h1>Tab Navigator</h1>
+        </div>
+        <div class="hero-content">
+          <div className='div-content'>
+            <h2>Simplify Your Browsing </h2>
+            <h2>Experience</h2>
+            <p>
+              Seamlessly preview, open, and manage tabs with intuitive hover previews and click-to-open functionality.
+            </p>
+            <a href="#download" class="cta-button">Get Started</a>
+          </div>
+        </div>
+      </section>
+      </SimpleSidebar>
     </>
   )
 }
