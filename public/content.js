@@ -183,6 +183,7 @@ document.addEventListener('keydown', function(event) {
                     
     
                     document.body.appendChild(popup);
+                    
                     adjustPopupWidth();
                     
                     function addTabsToPopup(tabs) {
@@ -202,8 +203,9 @@ document.addEventListener('keydown', function(event) {
                             wrapper.style.setProperty('border-radius', '0', 'important');
                            // wrapper.style.setProperty('border-bottom', '2px solid black', 'important');
                             //}
-                            const wrapperClick = (tabUrl, tabId) => {
-                                chrome.runtime.sendMessage({ message: 'open_new_tab', windowId: tab.url, top: window.innerHeight, left: window.innerWidth });
+                            const wrapperClick = (left,width) => {
+                                
+                                chrome.runtime.sendMessage({ message: 'open_new_tab', windowId: tab.url, left: left,width:width,top: window.innerHeight });
                             };
     
                             const wrapperLbl = document.createElement("div");
@@ -214,8 +216,9 @@ document.addEventListener('keydown', function(event) {
                             wrapperLbl.style.setProperty('margin', '0px', 'important');
                             wrapperLbl.style.setProperty('width', '210px', 'important');
                             wrapperLbl.addEventListener('click', function (e) {
-                                
-                                wrapperClick(tab.url, tab.id); // Pass your arguments here
+                                const left = this.getBoundingClientRect(popup).left;
+                                const width =this.getBoundingClientRect(popup).width;
+                                wrapperClick(left,width); // Pass your arguments here
                             });
     
                             
@@ -239,7 +242,10 @@ document.addEventListener('keydown', function(event) {
     
                             // Add mouseover event listener to label
                             label.addEventListener('mouseenter', function (e) {
-                                chrome.runtime.sendMessage({ message: 'screenshotTab', windowId: tab.url, top: window.innerHeight, left: window.innerWidth }, function (response) {
+                            
+                                const left = this.getBoundingClientRect(popup).left;
+                                const width =this.getBoundingClientRect(popup).width;
+                                chrome.runtime.sendMessage({ message: 'screenshotTab', windowId: tab.url, left: left,width:width,top: window.innerHeight }, function (response) {
                                     newWindow = response.window;
                                     ;
                                 });

@@ -27,15 +27,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
         try {
             const url = request.windowId;
-            const leftPx = request.left - Math.round(request.left * (1 / 100)) - 307;
+            const widthPopup = request.width;
+            const leftPx = request.left;
             let left = 0;
             const top = Math.round(request.top * (10 / 100));
             let width = 600;
             if(leftPx-width<0){
-                width = width -left -30;
+                left = Math.round(leftPx + widthPopup + 50) ;
             }  
             else{
-                left = leftPx - width-50;
+                left = Math.round(leftPx - width-50);
             }
             chrome.windows.create({
                 height:600,
@@ -73,16 +74,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         
         try {
             const url = request.windowId;
-            const leftPx = request.left - Math.round(request.left * (1 / 100)) - 350;
+            const widthPopup = request.width;
+            const leftPx = request.left;
             let left = 0;
             const top = Math.round(request.top * (10 / 100));
             let width = 600;
             if(leftPx-width<0){
-                width = width -left -30;
+                left = Math.round(leftPx + widthPopup + 50) ;
             }  
             else{
-                left = leftPx - width-50;
+                left = Math.round(leftPx - width-50);
             }
+            
             chrome.windows.create({
                 height:600,
                 width:width,

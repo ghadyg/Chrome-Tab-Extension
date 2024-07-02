@@ -1,12 +1,11 @@
 import React from 'react'
-import SimpleSidebar from './Sidebar'
+import './Settings.css'
+import Header from './Header'
 
 export default function Settings() {
   return (
     <div>
-      <SimpleSidebar>
-        
-      </SimpleSidebar>
+      <Header/>
     </div>
   )
 }

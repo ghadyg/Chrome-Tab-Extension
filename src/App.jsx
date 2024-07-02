@@ -1,17 +1,14 @@
 import { useState } from 'react'
 import './App.css'
-import SimpleSidebar from './component/Sidebar'
+import Header from './component/Header'
 
 
 function App() {
   
   return (
     <>
-      <SimpleSidebar>
       <section class="hero">
-        <div className='headerHero'>
-          <h1>Tab Navigator</h1>
-        </div>
+        <Header/>
         <div class="hero-content">
           <div className='div-content'>
             <h2>Simplify Your Browsing </h2>
@@ -23,7 +20,6 @@ function App() {
           </div>
         </div>
       </section>
-      </SimpleSidebar>
     </>
   )
 }

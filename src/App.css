@@ -15,7 +15,7 @@ body {
     background-color: #4CAF50;
     padding: 20px;
     text-align: center;
-  }
+  } 
   
   header nav h1 {
     margin: 0;
@@ -45,21 +45,6 @@ body {
     background-color: #009688;
     color: #FFFFFF;
    
-  }
-  .headerHero{
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    top: 5vh;
-  }
-  .hero h1 {
-    position: relative;
-    justify-self: center;
-    align-self: center;
-    font-size: 5rem;
-    font-weight: bold;
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
   }
   .hero-content{
     display: flex;

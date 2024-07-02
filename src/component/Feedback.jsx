@@ -1,12 +1,11 @@
 import React from 'react'
-import SimpleSidebar from './Sidebar'
+import Header from './Header'
+import './Feedback.css'
 
 export default function Feedback() {
   return (
     <div>
-      <SimpleSidebar>
-        
-      </SimpleSidebar>
+      <Header/>
     </div>
   )
 }
