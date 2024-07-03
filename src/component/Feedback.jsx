@@ -4,8 +4,14 @@ import './Feedback.css'
 
 export default function Feedback() {
   return (
-    <div>
-      <Header/>
-    </div>
+    <>
+      <section class="settings">
+        <Header/>
+
+        <div>
+          
+        </div>
+      </section>
+    </>
   )
 }

@@ -1,6 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+#root{
+  padding: 0 !important;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #009688;
     color: #333333;
   }
+  .settings {
+    height: 100vh;
+    background-color: #009688;
+    color: #FFFFFF;
+   
+  }
+  
