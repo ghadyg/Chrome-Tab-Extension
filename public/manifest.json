@@ -24,7 +24,8 @@
         "tabs",
         "activeTab",
         "scripting",
-        "history"
+        "history",
+        "storage"
     ],
     "host_permissions": [
     "http://*/*",

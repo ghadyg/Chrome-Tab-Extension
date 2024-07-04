@@ -1,5 +1,5 @@
 // ColorPicker.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import './ColorPicker.css';
 
@@ -19,6 +19,9 @@ const ColorPicker = ({ onColorChange,colorPicker }) => {
     setColor(color.hex);
     onColorChange(color.hex); // Pass the color to the parent component
   };
+  useEffect(() => {
+    setColor(colorPicker);
+  }, [colorPicker]);
 
   return (
     <div className="color-picker">

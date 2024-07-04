@@ -34,6 +34,11 @@ body {
     width: 25vw;
     
   }
+  .btnDiv{
+    display: flex;
+    gap: 30px;
+    width: 30vw;
+  }
   .cta-button {
     display: inline-block;
     padding: 15px 30px;
@@ -42,7 +47,8 @@ body {
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    margin-top: 50px;
+    margin-top: 20px;
+    width: 180px;
   }
   .formDiv{
     display: flex; 
@@ -149,6 +155,14 @@ h1 {
 .btn {
   height: 20px !important;
   width: 20px !important;
+}
+.historyBtn{
+  position: relative;
+  margin: auto;
+  margin-bottom: 5px;
+  background-color: transparent;
+  padding: 5px 10px;
+  border-radius: 20px;
 }
 
   

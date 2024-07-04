@@ -136,6 +136,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return true;
                    
         }
+        else if(request.message === "switchToTab"){
+            try {
+                const id = request.tabId
+                chrome.tabs.update(id, { active: true });
+            } catch (error) {
+                console.log(error);
+            }
+
+            return true;
+        }
         else if(request.message === "laod-history"){
             try {
                 const lastAccessed = request.lastAccessed;

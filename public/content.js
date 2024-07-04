@@ -1,4 +1,4 @@
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', async function(event) {
     if (event.altKey && event.key === 'v') {
 
         const existingPopup = document.getElementById('site-change-popup');
@@ -6,7 +6,26 @@ document.addEventListener('keydown', function(event) {
             document.body.removeChild(existingPopup);
         } else {
             try {
-                chrome.runtime.sendMessage({ message: 'get_tabs' }, function(response) {
+                chrome.runtime.sendMessage({ message: 'get_tabs' }, async function(response) {
+                    let bgColor = '#1C232C';
+                    let color = '#FFFFFF';
+                    let fontSize = 12;
+                    const getStorageData = () => {
+                        return new Promise((resolve, reject) => {
+                            chrome.storage.local.get(['color', 'bgColor', 'fontSize'], (result) => {
+                                if (chrome.runtime.lastError) {
+                                    reject(chrome.runtime.lastError);
+                                } else {
+                                    resolve(result);
+                                }
+                            });
+                        });
+                    };
+                    const result = await getStorageData();
+                    if (result.bgColor) bgColor = result.bgColor;
+                    if (result.color) color = result.color;
+                    if (result.fontSize) fontSize = result.fontSize;
+                    
                     let tabs = response.tabs;
                     const link = document.createElement('link');
                     link.rel = 'stylesheet';
@@ -27,7 +46,7 @@ document.addEventListener('keydown', function(event) {
                       position: absolute;
                       left: -310px;
                       top: 0;
-                      background-color: rgb(28, 35, 44);
+                      background-color: ${bgColor};
                       border: 1px solid black;
                       padding: 10px;
                       width: 300px;
@@ -50,7 +69,7 @@ document.addEventListener('keydown', function(event) {
                     popup.style.setProperty('position', 'fixed', 'important');
                     popup.style.setProperty('top', '0vh', 'important');
                     popup.style.setProperty('right', '1vw', 'important');
-                    popup.style.setProperty('background-color', 'rgba(28, 35, 44, 1)', 'important');
+                    popup.style.setProperty('background-color', `${bgColor}`, 'important');
                     popup.style.setProperty('color', 'white', 'important');
                     popup.style.setProperty('border', '1px solid black', 'important');
                     popup.style.setProperty('padding', '1px', 'important');
@@ -79,7 +98,7 @@ document.addEventListener('keydown', function(event) {
                     headerDiv.removeAttribute('style');
                     headerDiv.style.setProperty('position', 'sticky', 'important');
                     headerDiv.style.setProperty('top', '0', 'important');
-                    headerDiv.style.setProperty('background-color', 'rgba(28, 35, 44, 1)', 'important');
+                    headerDiv.style.setProperty('background-color', `${bgColor}`, 'important');
                     headerDiv.style.setProperty('padding', '10px', 'important');
                     headerDiv.style.setProperty('margin', '0', 'important'); 
                     headerDiv.style.setProperty('z-index', '10001', 'important');
@@ -136,7 +155,7 @@ document.addEventListener('keydown', function(event) {
                     newTabbtn.style.setProperty('width', '20px', 'important');
                     newTabbtn.style.setProperty('align-self', 'center', 'important');
                     newTabbtn.classList.add("hover-pointer");
-                    newTabbtn.src = `https://img.icons8.com/?size=100&id=37784&format=png&color=FFFFFF`;
+                    newTabbtn.src = `https://img.icons8.com/?size=100&id=37784&format=png&color=${color.replace('#','')}`;
                     
                     headerDiv.appendChild(header);
                     headerDiv.appendChild(newTabbtn);
@@ -147,12 +166,25 @@ document.addEventListener('keydown', function(event) {
                     newTabbtn.addEventListener('click', function() {
                          chrome.runtime.sendMessage({ message: 'create-new-window'}); 
                      });
-                     const addHistoryTabsbtn = document.createElement("img");
-                    addHistoryTabsbtn.style.setProperty('height', '20px', 'important');
-                    addHistoryTabsbtn.style.setProperty('width', '20px', 'important');
-                    addHistoryTabsbtn.style.setProperty('align-self', 'center', 'important');
-                    addHistoryTabsbtn.classList.add("hover-pointer");
-                    addHistoryTabsbtn.src = `https://img.icons8.com/?size=100&id=37784&format=png&color=FFFFFF`;
+                    
+                    
+                    const addHistoryTabsbtn = document.createElement("button");
+                    // addHistoryTabsbtn.style.setProperty('height', '20px', 'important');
+                    // addHistoryTabsbtn.style.setProperty('width', '20px', 'important');
+                    // addHistoryTabsbtn.style.setProperty('align-self', 'center', 'important');
+                    // addHistoryTabsbtn.classList.add("hover-pointer");
+                    // addHistoryTabsbtn.src = `https://img.icons8.com/?size=100&id=37784&format=png&color=${color.replace('#','')}`;
+                    addHistoryTabsbtn.style.setProperty('position', 'relative', 'important');
+                    addHistoryTabsbtn.style.setProperty('margin', 'auto', 'important');
+                    addHistoryTabsbtn.style.setProperty('color', `${color}`, 'important');
+                    addHistoryTabsbtn.style.setProperty('margin-bottom', '5px', 'important');
+                    addHistoryTabsbtn.style.setProperty('background-color', 'transparent', 'important');
+                    addHistoryTabsbtn.style.setProperty('padding', '5px 10px', 'important');
+                    addHistoryTabsbtn.style.setProperty('border-radius', '20px', 'important');
+                    addHistoryTabsbtn.style.setProperty('border',  `1px solid ${color}`, 'important');
+                    addHistoryTabsbtn.textContent = 'Load from history';
+                    addHistoryTabsbtn.classList.add("hover-pointer"); 
+
                     addHistoryTabsbtn.addEventListener('click', function() {
                         chrome.runtime.sendMessage({ message: 'laod-history',tabCount:tabs.length},function(responseTab){
                                    //console.log(responseTab.tabs);
@@ -193,7 +225,7 @@ document.addEventListener('keydown', function(event) {
                             wrapper.style.setProperty('display', 'flex', 'important');
                             wrapper.style.setProperty('gap', '20px', 'important');
                             wrapper.style.setProperty('justify-content', 'space-between', 'important');
-                            wrapper.style.setProperty('background-color', 'rgb(28, 35, 44)', 'important');
+                            wrapper.style.setProperty('background-color', `${bgColor}`, 'important');
                             wrapper.style.setProperty('padding', '10px', 'important');
                             wrapper.style.setProperty('margin', '0px', 'important');
                             wrapper.style.setProperty('width', '270px', 'important');
@@ -203,24 +235,44 @@ document.addEventListener('keydown', function(event) {
                             wrapper.style.setProperty('border-radius', '0', 'important');
                            // wrapper.style.setProperty('border-bottom', '2px solid black', 'important');
                             //}
-                            const wrapperClick = (left,width) => {
-                                
-                                chrome.runtime.sendMessage({ message: 'open_new_tab', windowId: tab.url, left: left,width:width,top: window.innerHeight });
-                            };
+                            
     
                             const wrapperLbl = document.createElement("div");
                             wrapperLbl.style.setProperty('box-sizing', 'border-box', 'important');
                             wrapperLbl.style.setProperty('display', 'flex', 'important');
-                            wrapperLbl.style.setProperty('background-color', 'rgb(28, 35, 44)', 'important');
+                            wrapperLbl.style.setProperty('background-color', `${bgColor}`, 'important');
                             wrapperLbl.style.setProperty('padding', '0px', 'important');
                             wrapperLbl.style.setProperty('margin', '0px', 'important');
                             wrapperLbl.style.setProperty('width', '210px', 'important');
-                            wrapperLbl.addEventListener('click', function (e) {
-                                const left = this.getBoundingClientRect(popup).left;
-                                const width =this.getBoundingClientRect(popup).width;
-                                wrapperClick(left,width); // Pass your arguments here
+                            wrapperLbl.addEventListener('contextmenu', function (e) {
+                                e.preventDefault();
+                            }, false);
+                            wrapperLbl.addEventListener('mousedown', function (e) {
+                                console.log(e);
+                                if(e.button ==2)
+                                {
+                                    e.preventDefault();
+                                    const left = this.getBoundingClientRect(popup).left;
+                                    const width =this.getBoundingClientRect(popup).width;
+                                    wrapperClick(left,width); // Pass your arguments here
+                                }
+                                else if(e.button ==1)
+                                {
+                                    popup.removeChild(document.getElementById(tab.id));
+                                    if(tab.windowId)
+                                        closeTabFunc(tab.id); // Pass your arguments here
+                                    }
+                                else if(e.button ==0)
+                                {
+                                    e.preventDefault();
+                                    chrome.runtime.sendMessage({ message: 'switchToTab', tabId:tab.id });
+                                }
+                                
                             });
-    
+                            const wrapperClick = (left,width) => {
+                                
+                                chrome.runtime.sendMessage({ message: 'open_new_tab', windowId: tab.url, left: left,width:width,top: window.innerHeight });
+                            };
                             
                             wrapperLbl.classList.add("hover-pointer");
     
@@ -229,14 +281,14 @@ document.addEventListener('keydown', function(event) {
     
                             const label = document.createElement("label");
                             label.textContent = tab.title ? tab.title : tab.url;
-                            label.style.setProperty('background-color', 'rgb(28, 35, 44)', 'important');
-                            label.style.setProperty('color', 'white', 'important');
+                            label.style.setProperty('background-color', `${bgColor}`, 'important');
+                            label.style.setProperty('color', `${color}`, 'important');
                             label.style.setProperty('width', '180px', 'important');
                             label.style.setProperty('overflow', 'hidden', 'important');
                             label.style.setProperty('text-overflow', 'ellipsis', 'important');
                             label.style.setProperty('white-space', 'nowrap', 'important');
                             label.classList.add("hover-pointer");
-                            label.style.setProperty('font-size', "12px", 'important');
+                            label.style.setProperty('font-size', `${color}`, 'important');
     
                             let newWindow = 0;
     
@@ -273,7 +325,7 @@ document.addEventListener('keydown', function(event) {
                             btn.style.setProperty('height', '20px', 'important');
                             btn.style.setProperty('width', '20px', 'important');
                             btn.classList.add("hover-pointer");
-                            btn.src = `https://img.icons8.com/external-inkubators-basic-outline-inkubators/32/FFFFFF/external-close-button-it-and-computer-inkubators-basic-outline-inkubators.png`;
+                            btn.src = `https://img.icons8.com/external-inkubators-basic-outline-inkubators/32/${color.replace('#','')}/external-close-button-it-and-computer-inkubators-basic-outline-inkubators.png`;
                             btn.addEventListener('click', function () {
                                 popup.removeChild(document.getElementById(tab.id));
                                 if(tab.windowId)
@@ -302,8 +354,8 @@ document.addEventListener('keydown', function(event) {
                     popup.style.setProperty('position', 'fixed', 'important');
                     popup.style.setProperty('top', '0vh', 'important');
                     popup.style.setProperty('right', '1vw', 'important');
-                    popup.style.setProperty('background-color', 'rgba(28, 35, 44, 0.9)', 'important');
-                    popup.style.setProperty('color', 'white', 'important');
+                    popup.style.setProperty('background-color', `${bgColor}`, 'important');
+                    popup.style.setProperty('color', `${color}`, 'important');
                     popup.style.setProperty('border', '1px solid black', 'important');
                     popup.style.setProperty('padding', '1px', 'important');
                     popup.style.setProperty('z-index', '10000', 'important');
@@ -333,7 +385,7 @@ document.addEventListener('keydown', function(event) {
                     headerDiv.removeAttribute('style');
                     headerDiv.style.setProperty('position', 'sticky', 'important');
                     headerDiv.style.setProperty('top', '0', 'important');
-                    headerDiv.style.setProperty('background-color', 'rgba(28, 35, 44, 0.9)', 'important');
+                    headerDiv.style.setProperty('background-color', `${bgColor}`, 'important');
                     headerDiv.style.setProperty('padding', '10px', 'important');
                     headerDiv.style.setProperty('margin', '0', 'important'); 
                     headerDiv.style.setProperty('z-index', '10001', 'important');
