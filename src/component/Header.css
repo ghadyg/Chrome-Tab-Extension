@@ -3,8 +3,9 @@
     justify-content: space-between;
     align-items: center;
     position: relative;
-    top:1vh;
+    top:4vh;
     color: white;
+    z-index: 99999;
   }
 
   .headerHero h1 {
@@ -28,4 +29,5 @@
       font-family: 'Roboto', sans-serif;
       text-decoration: none;
       color: inherit;
+      font-size: 1rem;
   }

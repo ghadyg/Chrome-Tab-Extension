@@ -12,9 +12,9 @@ export default function Header() {
         <a href='#settings'>
           Settings
         </a>
-        <a href='#feedback'>
+        {/* <a href='#feedback'>
           Feedback
-        </a>
+        </a> */}
       </div>
     </div>
   )

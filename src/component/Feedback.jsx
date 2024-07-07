@@ -5,7 +5,7 @@ import './Feedback.css'
 export default function Feedback() {
   return (
     <>
-      <section class="settings">
+      <section class="feedback">
         <Header/>
 
         <div>

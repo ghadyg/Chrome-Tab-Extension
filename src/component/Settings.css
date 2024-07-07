@@ -7,19 +7,20 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #009688;
+    background: linear-gradient(120deg, #040027 0%, #41709c 70%, #803969 100%);
     color: #333333;
   }
   .settings {
     height: 100vh;
-    background-color: #009688;
+    background: linear-gradient(120deg, #040027 0%, #41709c 70%, #803969 100%);
     color: #FFFFFF;
+    
    
   }
   .settings h2 {
     position: absolute;
     left: 19vw;
-    top: 10vh;
+    top: 15vh;
     font-size: 2.5rem;
     font-weight: 600;
     margin: 0;
@@ -28,7 +29,7 @@ body {
   .settings-properties{
     position: absolute;
     left: 20vw;
-    top: 20vh;
+    top: 25vh;
     padding: 30px;
     border: 1px solid white;
     width: 25vw;
@@ -39,10 +40,11 @@ body {
     gap: 30px;
     width: 30vw;
   }
-  .cta-button {
+  .settings-cta-button {
     display: inline-block;
     padding: 15px 30px;
-    background-color: #FF9800;
+    background-color: #e7af00;
+    transition: background-color 0.3s ease;
     color: #FFFFFF;
     text-decoration: none;
     border-radius: 5px;
@@ -50,16 +52,22 @@ body {
     margin-top: 20px;
     width: 180px;
   }
+  .settings-cta-button:hover{
+    background-color: #ffb300;
+  }
   .formDiv{
     display: flex; 
     margin-bottom: 50px;
-    width: 15vw;
+    width: 20vw;
     justify-content: space-between;
+    align-items: center;
+    justify-items: flex-end;
   }
+
   
-.site-change-popup {
+.site-change-popup1 {
     position: absolute !important;
-    top: 20vh !important;
+    top: 27vh !important;
     left: 60vw !important;
     border: 1px solid black !important;
     padding: 1px !important;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Settings.css'
 import Header from './Header'
 import {
@@ -10,11 +10,15 @@ import ColorPicker from './ColorPicker'
 
 export default function Settings() {
 
+  const [keysPressed, setKeysPressed] = useState({});
   const [settings, setSettings] = useState({
     bgColor: '#1C232C',
     color: '#FFFFFF',
-    fontSize: 12
+    fontSize: 12,
+    shortcut: 'Alt+v'
   });
+  const inputRef = useRef(null);
+  
 
   useEffect(() => {
     try {
@@ -55,9 +59,36 @@ export default function Settings() {
     const defaultSettings = {
       bgColor: '#1C232C',
       color: '#ffffff',
-      fontSize: 12
+      fontSize: 12,
+      shortcut: 'Alt+v'
     };
     setSettings(defaultSettings);
+  };
+
+
+  const handleKeyDown = (event) => {
+    event.preventDefault();
+    setKeysPressed((prevKeys) => {
+      const newKeys = { ...prevKeys, [event.key]: true };
+      console.log(newKeys);
+      return newKeys;
+    });
+    
+  };
+
+  const handleKeyUp = (event) => {
+    
+    event.preventDefault();
+    updateShortcutDisplay(keysPressed);
+    if (inputRef.current) {
+      inputRef.current.blur(); // Remove focus from the input element
+    }
+    console.log(keysPressed);
+  };
+
+  const updateShortcutDisplay = (keys) => {
+    const keysArray = Object.keys(keys).filter((key) => keys[key]);
+    setSettings((prevSettings) => ({ ...prevSettings, shortcut: keysArray.join(' + ') }));
   };
 
   return (
@@ -84,13 +115,28 @@ export default function Settings() {
               onChange={handleFontSizeChange}
             />
           </div>
+          <div className='formDiv'>
+            <FormLabel className='frmLabel'>Overlay Popup keys:</FormLabel>
+            <Input
+                ref={inputRef}
+                w={'130px'}
+                h={'40px'}
+                textAlign={'center'}
+                fontSize={12}
+                value={settings.shortcut}
+                onKeyDown={handleKeyDown}
+                onKeyUp={handleKeyUp}
+                onFocus={()=>setKeysPressed({})}
+                readOnly
+              />
+          </div>
           
-          <button className="cta-button" onClick={saveSettings}>Save Settings</button>
-          <button className="cta-button" onClick={resetToDefault}>Reset to default</button>
+          <button className="settings-cta-button" onClick={saveSettings}>Save Settings</button>
+          <button className="settings-cta-button" onClick={resetToDefault}>Reset to default</button>
         </FormControl>
         </div>
 
-        <div id="site-change-popup1" className="site-change-popup" style={{backgroundColor:settings.bgColor, color:settings.color, fontSize:settings.fontSize+"px"}}>
+        <div id="site-change-popup" className="site-change-popup1" style={{backgroundColor:settings.bgColor, color:settings.color, fontSize:settings.fontSize+"px"}}>
         <div className="header-hover">
             <h1>Tabs</h1>
             <img className="new-tab-btn hover-pointer" src={`https://img.icons8.com/?size=100&id=37784&format=png&color=${settings.color.replace('#','')}`} alt="New Tab"/>

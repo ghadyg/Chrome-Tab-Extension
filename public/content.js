@@ -1,31 +1,53 @@
-document.addEventListener('keydown', async function(event) {
-    if (event.altKey && event.key === 'v') {
 
+const parseShortcut = (shortcut) => {
+    const parts = shortcut.split('+').map(part => part.trim());
+    const modifiers = parts.slice(0, -1);
+    const key = parts[parts.length - 1];
+    return { modifiers, key };
+  };
+const checkShortcut = (event, shortcut) => {
+    const { modifiers, key } = parseShortcut(shortcut);
+
+    const modifierCheck = modifiers.every(modifier => {
+      if (modifier === 'Alt') return event.altKey;
+      if (modifier === 'Control') return event.ctrlKey;
+      if (modifier === 'Shift') return event.shiftKey;
+      if (modifier === 'Meta') return event.metaKey;
+      return false;
+    });
+
+    return modifierCheck && event.key.toLowerCase() === key.toLowerCase();
+  };
+
+document.addEventListener('keydown', async function(event) {
+    let bgColor = '#1C232C';
+    let color = '#FFFFFF';
+    let fontSize = 12;
+    let shortcut = 'Alt+v';
+    const getStorageData = () => {
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get(['color', 'bgColor', 'fontSize','shortcut'], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    };
+    const result = await getStorageData();
+    if (result.bgColor) bgColor = result.bgColor;
+    if (result.color) color = result.color;
+    if (result.fontSize) fontSize = result.fontSize;
+    if (result.shortcut) shortcut = result.shortcut;
+    
+    if (checkShortcut(event,shortcut)) {
         const existingPopup = document.getElementById('site-change-popup');
         if (existingPopup) {
             document.body.removeChild(existingPopup);
         } else {
             try {
                 chrome.runtime.sendMessage({ message: 'get_tabs' }, async function(response) {
-                    let bgColor = '#1C232C';
-                    let color = '#FFFFFF';
-                    let fontSize = 12;
-                    const getStorageData = () => {
-                        return new Promise((resolve, reject) => {
-                            chrome.storage.local.get(['color', 'bgColor', 'fontSize'], (result) => {
-                                if (chrome.runtime.lastError) {
-                                    reject(chrome.runtime.lastError);
-                                } else {
-                                    resolve(result);
-                                }
-                            });
-                        });
-                    };
-                    const result = await getStorageData();
-                    if (result.bgColor) bgColor = result.bgColor;
-                    if (result.color) color = result.color;
-                    if (result.fontSize) fontSize = result.fontSize;
-                    
                     let tabs = response.tabs;
                     const link = document.createElement('link');
                     link.rel = 'stylesheet';
@@ -242,6 +264,7 @@ document.addEventListener('keydown', async function(event) {
                             wrapperLbl.style.setProperty('display', 'flex', 'important');
                             wrapperLbl.style.setProperty('background-color', `${bgColor}`, 'important');
                             wrapperLbl.style.setProperty('padding', '0px', 'important');
+                            wrapperLbl.style.setProperty('align-self', 'center', 'important');
                             wrapperLbl.style.setProperty('margin', '0px', 'important');
                             wrapperLbl.style.setProperty('width', '210px', 'important');
                             wrapperLbl.addEventListener('contextmenu', function (e) {
