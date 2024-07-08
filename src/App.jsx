@@ -53,13 +53,13 @@ function App() {
       </section>
 
       <section id="functions" className="functions">
-        <div className="function-item">
+        <div className="function-item" style={{height:'15vh'}}>
           <h3>How to Use:</h3>
           <p>
             To make the popup appear, press <b>alt+v</b> or the specified command in the <b><a href="#settings" className="link">Settings</a></b>.
           </p>
         </div>
-        <div className="function-item">
+        <div className="function-item" style={{height:'45vh'}}>
           <h3>Features:</h3>
           <ul className="features-list">
             <li>Pressing the plus icon  &nbsp; <b>+</b>  &nbsp; will open a new tab.</li>
@@ -70,9 +70,9 @@ function App() {
             <li>Pressing &nbsp;<b>Load from history</b>&nbsp; will add tabs from the history to the popup.</li>
           </ul>
         </div>
-        <div className="function-item" style={{textAlign: 'center'}}>
+        <div className="function-item" style={{textAlign: 'center', height:'25vh'}} >
           <h3>To Customize your popup click on the button below 👇:</h3>
-          <a href="#settings" className="cta-button" style={{marginTop: '0px'}}>Settings</a>
+          <a href="#settings" className="cta-button" style={{marginTop: '10px', width:'10vw',fontSize:'25px'}}>Settings</a>
         </div>
       </section>
       {/* <section>

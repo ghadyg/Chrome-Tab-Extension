@@ -4,7 +4,8 @@ import './Header.css'
 export default function Header() {
   return (
     <div className='headerHero'>
-      <h1>Tab Wizard</h1>
+      <h1> <img src='tabwizard-high-resolution-logo-transparent.png'></img>Tab Wizard</h1>
+      
       <div>
         <a href='#/'>
           Home
