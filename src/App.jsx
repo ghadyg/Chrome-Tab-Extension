@@ -47,8 +47,8 @@ function App() {
             </p>
             <a href="#!" className="cta-button">Get Started</a>
           </div>
-          <img src='public\tab-open.png' className='img-tab-open' alt="Tab Open"></img>
-          <img src='public\fullpopup.png' className='img-tab' alt="Full Popup"></img>
+          <img src='tab-open.png' className='img-tab-open' alt="Tab Open"></img>
+          <img src='fullpopup.png' className='img-tab' alt="Full Popup"></img>
         </div>   
       </section>
 
