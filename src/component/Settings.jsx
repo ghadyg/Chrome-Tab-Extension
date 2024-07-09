@@ -95,7 +95,7 @@ export default function Settings() {
     <>
     <section className="settings">
       <Header />
-      <h2>Customize your Tab Wizard:</h2>
+      <h2>Customize your TabWizard:</h2>
       <div className='settings-properties'>
         <FormControl w={'20vw'} display={'flex'} flexDirection={'column'}>
           <div className='formDiv'>

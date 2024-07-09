@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Header from './component/Header';
-import SmallWithSocial from './component/Footer';
+
 
 function App() {
 
@@ -59,7 +59,7 @@ function App() {
             To make the popup appear, press <b>alt+v</b> or the specified command in the <b><a href="#settings" className="link">Settings</a></b>.
           </p>
         </div>
-        <div className="function-item" style={{height:'45vh'}}>
+        <div className="function-item" style={{height:'48vh'}}>
           <h3>Features:</h3>
           <ul className="features-list">
             <li>Pressing the plus icon  &nbsp; <b>+</b>  &nbsp; will open a new tab.</li>
