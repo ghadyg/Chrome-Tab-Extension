@@ -64,8 +64,8 @@ function App() {
           <ul className="features-list">
             <li>Pressing the plus icon  &nbsp; <b>+</b>  &nbsp; will open a new tab.</li>
             <li>Hovering over the text or the icon will display a popup preview of the tab content.</li>
-            <li>Left clicking on the text or the icon will switch to the corresponding tab.</li>
-            <li>Right clicking on the text or the icon will open the tab in a popup window.</li>
+            <li>Left clicking on the text or the icon will open the tab in a popup window.</li>
+            <li>Right clicking on the text or the icon will switch to the corresponding tab.</li>
             <li>Middle clicking on the text or the icon, or pressing the &nbsp; <b>X</b>,&nbsp; will close the tab.</li>
             <li>Pressing &nbsp;<b>Load from history</b>&nbsp; will add tabs from the history to the popup.</li>
           </ul>

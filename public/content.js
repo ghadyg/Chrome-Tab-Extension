@@ -272,7 +272,7 @@ document.addEventListener('keydown', async function(event) {
                             }, false);
                             wrapperLbl.addEventListener('mousedown', function (e) {
                                 console.log(e);
-                                if(e.button ==2)
+                                if(e.button ==0)
                                 {
                                     e.preventDefault();
                                     const left = this.getBoundingClientRect(popup).left;
@@ -285,7 +285,7 @@ document.addEventListener('keydown', async function(event) {
                                     if(tab.windowId)
                                         closeTabFunc(tab.id); // Pass your arguments here
                                     }
-                                else if(e.button ==0)
+                                else if(e.button ==2)
                                 {
                                     e.preventDefault();
                                     chrome.runtime.sendMessage({ message: 'switchToTab', tabId:tab.id });
