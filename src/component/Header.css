@@ -1,6 +1,5 @@
 .headerHero {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     position: relative;
     top:4vh;
@@ -15,6 +14,20 @@
       font-family: 'Roboto', sans-serif;
       position: relative;
       left:10vw;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+  }
+  .headerHero img {
+    height: 80px;
+    width: auto;
+    margin-right: 20px;
+    transition: transform 0.3s ease;
+    margin: 0%;
+  }
+  
+  .headerHero img:hover {
+    transform: scale(1.2); /* Slightly enlarge the image on hover */
   }
 
   .headerHero > div {

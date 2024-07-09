@@ -107,7 +107,7 @@ body {
 
   /* Functions Section */
 .functions {
-  width: 100vw;
+  width: 98vw;
   height: 100vh;
   padding: 40px 20px;
   text-align: left;
@@ -121,6 +121,7 @@ body {
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
+  width: 97vw;
 }
 
 .function-item:hover {
@@ -138,7 +139,7 @@ body {
 }
 
 .link {
-  color: #00f;
+  color: #FFFFFF;
   text-decoration: underline;
 }
 
