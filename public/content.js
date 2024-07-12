@@ -171,7 +171,7 @@ document.addEventListener('keydown', async function(event) {
                     header.textContent = 'Tabs';
                     header.style.setProperty('margin', '0', 'important');
                     header.style.setProperty('font-size', '25px', 'important');
-    
+                    header.style.setProperty('color', `${color}`, 'important');
                     const newTabbtn = document.createElement("img");
                     newTabbtn.style.setProperty('height', '20px', 'important');
                     newTabbtn.style.setProperty('width', '20px', 'important');
@@ -301,7 +301,7 @@ document.addEventListener('keydown', async function(event) {
     
     
     
-    
+                            
                             const label = document.createElement("label");
                             label.textContent = tab.title ? tab.title : tab.url;
                             label.style.setProperty('background-color', `${bgColor}`, 'important');
@@ -310,8 +310,9 @@ document.addEventListener('keydown', async function(event) {
                             label.style.setProperty('overflow', 'hidden', 'important');
                             label.style.setProperty('text-overflow', 'ellipsis', 'important');
                             label.style.setProperty('white-space', 'nowrap', 'important');
+                            label.style.setProperty('font-size', `${fontSize}px`, 'important');
                             label.classList.add("hover-pointer");
-                            label.style.setProperty('font-size', `${color}`, 'important');
+                            
     
                             let newWindow = 0;
     

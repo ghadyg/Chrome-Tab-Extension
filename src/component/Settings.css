@@ -81,6 +81,7 @@ body {
     overflow-x: hidden !important;
     margin: 0 !important;
     box-sizing: border-box !important;
+    resize: both;
     
 }
 
