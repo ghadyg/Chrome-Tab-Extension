@@ -1,13 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  background: linear-gradient(120deg, #040027 0%, #41709c 70%, #803969 100%) !important;
+}
 html {
   scroll-behavior: smooth;
 }
 
 #root{
   padding: 0 !important;
-  background: linear-gradient(120deg, #040027 0%, #41709c 70%, #803969 100%) !important;
+  
 }
+.bodyWrapper {
+  display: grid;
+  grid-template-rows: 1fr 1fr; /* Two rows with equal height */
+  min-height: 100%; /* Minimum height of the entire grid */
+}
+
+/* Optional: Set a max-height if needed */
+/* .bodyWrapper {
+  max-height: 100vh; 
+} */
+
+/* Additional styling for each section if needed */
+.bodyWrapper section {
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport */
+}
+.hero {
+  min-height: 100vh; /* Each section has at least 100% of the viewport height */
+  width: 100%;
+  color: #FFFFFF;
+ 
+}
+
+/* Functions Section */
+.functions {
+    width: 98vw;
+    min-height: 100vh; /* Each section has at least 100% of the viewport height */
+    width: 100%;
+    padding: 40px 20px;
+    text-align: left;
+    color: #fff;
+}
+
 
 body {
     margin: 0;
@@ -44,25 +83,33 @@ body {
     font-weight: bold;
   }
   
-  .hero {
-    height: 100vh;
-    color: #FFFFFF;
-   
-  }
+
 
   .hero-content {
-    display: flex;
-    position: relative;
-    align-items: flex-start;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 40% 30% 30%; /* Two columns, first column 40%, second column 60% */
     gap: 20px; /* Adjust the gap between the elements */
     padding: 20px; /* Adjust padding as needed */
-    height: 90vh;
+    padding-left: 150px; /* Adjust left padding as needed */
+    height: 90vh; /* Adjust height as needed */
+    align-items: center; /* Center align items vertically */
+    position: relative; /* Maintain relative positioning */
   }
-  
+  @media (max-width: 1200px) {
+    .hero-content{
+      padding: 0;
+    }
+  }
+
+  .imageWrapper{
+    display: flex;
+    gap: 10px;
+  }
   .div-content {
     margin-top: 20vh;
     margin-right: 5vw;
+    display: flex;
+    flex-direction: column;
   }
   
   .hero-content h2 {
@@ -82,37 +129,54 @@ body {
   
   .cta-button {
     display: inline-block;
-    padding: 15px 30px;
-    background-color:#e7af00 ;
-    /* #ffca28 */
+    margin-top: 20px;
+    height: 75px; /* Set a fixed height */
+    min-width: fit-content;
+    width: 150px;
+    line-height: 75px; /* Match the line-height to the height for vertical centering */
+    padding: 0 20px; /* Minimal horizontal padding */
+    background-color: #e7af00;
     color: #FFFFFF;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    margin-top: 50px;
-    font-size: 1.2rem;
+    font-size: 25px !important;
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+  @media (max-width: 1200px) {
+    .cta-button{
+      font-size: 18px !important;
+    }
   }
   
-  .cta-button:hover {
-    background-color: #ffb300;
+  @media (max-width: 900px) {
+    .cta-button {
+      font-size: 16px !important;
+    }
   }
   
+  @media (max-width: 600px) {
+    .cta-button {
+      font-size: 14px !important;
+    }
+  }
   .img-tab-open, .img-tab {
     margin-top: 14vh;
-    max-width: 30vw; /* Adjust the max width as needed */
     height: auto; /* Maintain aspect ratio */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow */
     border-radius: 8px; /* Adding some rounded corners */
   }
+  .cta-button:hover {
+    background-color: #ffb300;
+  }
+  
 
-  /* Functions Section */
-.functions {
-  width: 98vw;
-  height: 100vh;
-  padding: 40px 20px;
-  text-align: left;
-  color: #fff;
-}
+  .text-wrap {
+    word-wrap: break-word; /* Allows breaking long words and wrapping them */
+    white-space: normal; /* Allows normal wrapping of text */
+  }
+
+
 
 .function-item {
   background: rgba(0, 0, 0, 0.5);

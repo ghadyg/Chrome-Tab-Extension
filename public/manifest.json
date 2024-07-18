@@ -2,13 +2,13 @@
     "manifest_version": 3,
     "name": "Tabwizard",
     "icons":{
-        "16": "tabwizard-high-resolution-logo-transparent.png",
-        "32": "tabwizard-high-resolution-logo-transparent.png",
-        "48": "tabwizard-high-resolution-logo-transparent.png",
-        "128": "tabwizard-high-resolution-logo-transparent.png"
+        "16": "icon.png",
+        "32": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
     },
     "description": "Seamlessly preview, open, and manage tabs with intuitive hover previews and click-to-open functionality.",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "action":{
         "default_popup": "popup.html"
     },
@@ -25,8 +25,6 @@
     ],
     "permissions":[
         "tabs",
-        "activeTab",
-        "scripting",
         "history",
         "storage"
     ],
